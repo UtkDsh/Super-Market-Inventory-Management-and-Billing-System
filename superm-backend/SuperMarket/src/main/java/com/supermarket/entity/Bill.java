@@ -33,7 +33,8 @@ public class Bill {
 	@JsonIgnore
 	private Customer customer;
 	
-	@ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+//	@ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+	@ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST})
 	@JoinTable(name="BILL_PRODUCT",joinColumns = @JoinColumn(name="billId"),inverseJoinColumns = @JoinColumn(name="productId"))
 	@JsonManagedReference
 	private List<Product> products=new ArrayList<>();

@@ -1,5 +1,6 @@
 package com.supermarket.serviceImpl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZonedDateTime;
@@ -94,11 +95,12 @@ public class BillServiceImpl implements BillService {
 		bdto.setProducts(productdto);
 		Bill bill=modelMapper.map(bdto, Bill.class);
 		updateStock(bdto);
-		reviseStock(bill);
 		brepo.save(bill);
+		reviseStock(bill);
 		System.out.println(bill.getBillDate());
 		updateCustomerRewardPoints(bill);
 //		updateStock(bdto);
+		
 		return bdto;
 		
 		
@@ -124,19 +126,25 @@ public class BillServiceImpl implements BillService {
 	}
 
 	@Override
-	public List<BillDTO> getBillsByDate(LocalDateTime date) {
-		
-		List<Bill> bills=brepo.findByBillDate(date);
-		List<BillDTO> billdtos=bills.stream().map(bill->modelMapper.map(bill, BillDTO.class))
+	public List<BillDTO> getBillsByDate(String date) {
+
+		LocalDate ltd=LocalDate.parse(date);
+		System.out.println(ltd);
+		List<Bill> allBills=brepo.findAll();
+		List<Bill> billsByDate=allBills.stream().filter(e->(e.getBillDate().toLocalDate().equals(ltd)))
 				.collect(Collectors.toList());
-		return billdtos;
+		List<BillDTO> billsByDateDto=billsByDate.stream().map(bill->modelMapper.map(bill, BillDTO.class))
+				.collect(Collectors.toList());
+		return billsByDateDto;
+		
+	
 	}
 
 	@Override
-	public List<BillDTO> getBillsByMonth(Month month,Integer year) {
+	public List<BillDTO> getBillsByMonth(Integer month,Integer year) {
 		
 		List<Bill> bills=brepo.findAll();
-		List<Bill> billsByMonth= bills.stream().filter(e->(e.getBillDate().getMonth()==month)
+		List<Bill> billsByMonth= bills.stream().filter(e->(e.getBillDate().getMonth().getValue()==month)
 				&&(e.getBillDate().getYear()==year)).collect(Collectors.toList());
 		List<BillDTO> billdtos=billsByMonth.stream().map(e->modelMapper.map(e, BillDTO.class))
 				.collect(Collectors.toList());
@@ -236,6 +244,22 @@ public class BillServiceImpl implements BillService {
 		}
 		
 	}
+
+	@Override
+	public Long calculateProfitPerBill(Long billId) {
+		
+		Bill bill=brepo.findByBillId(billId);
+		double profit=0;
+		BillDTO bdto=bill.getProducts().stream().map(p->profit+=(p.getSellingPrice()*p.getSoldStock())
+				-(p.getCostPrice()*p.getSoldStock()).;
+		
+		
+		
+		return null;
+	}
+	
+	
+	
 	
 	
 	

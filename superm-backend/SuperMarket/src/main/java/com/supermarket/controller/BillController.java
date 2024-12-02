@@ -82,8 +82,30 @@ public class BillController {
 		}
 	}
 	
+	@GetMapping("/getbillsbydate/{date}")
+	public ResponseEntity<?> getBillByDate(@PathVariable String date)
+	{
+		
+		try {
+			
+			List<BillDTO> bills=bservice.getBillsByDate(date);
+			if(bills==null)
+			{
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No Bills found");
+			}
+			else
+			{
+				return ResponseEntity.ok(bills);
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching Bills"
+					+e.getMessage());
+		}
+	}
+	
+	
 	@GetMapping("/getbillsbymonth/{month}/{year}")
-	public ResponseEntity<?> getBillsByMonth(@PathVariable Month month,Integer year)
+	public ResponseEntity<?> getBillsByMonth(@PathVariable Integer month, @PathVariable Integer year)
 	{
 		try {
 			
