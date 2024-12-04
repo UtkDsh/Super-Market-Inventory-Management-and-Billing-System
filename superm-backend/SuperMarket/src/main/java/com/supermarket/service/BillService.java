@@ -1,12 +1,12 @@
 package com.supermarket.service;
 
-import java.time.LocalDateTime;
-import java.time.Month;
+
+
 import java.util.List;
 
 import com.supermarket.dto.BillDTO;
 import com.supermarket.dto.CartDTO;
-import com.supermarket.dto.CustomerDTO;
+
 import com.supermarket.entity.Bill;
 
 public interface BillService {
@@ -22,7 +22,15 @@ public interface BillService {
 	public void updateCustomerRewardPoints(Bill bill);
 	public void updateStock(BillDTO billdto);
 	public void reviseStock(Bill bill);
-	public Long calculateProfitPerBill(Long billId);
-
-	
+	public double calculateProfitPerBill(Long billId);
+	public double calculateProfitPerDay(String date);
+	public double calculateProfitPerMonth(Integer month,Integer year);
+	public double calculateProfitPerYear(Integer year);
+	public double calcualateRevenuePerBill(Long billId);
+	public double calcualateRevenuePerDay(String date);
+	public double calcualateRevenuePerMonth(Integer month,Integer year);
+	public double calcualateRevenuePerYear(Integer year);
+	public double numberOfBillsPerDay(String date);
+	public double numberOfBillsPerMonth(Integer month,Integer year);
+	public double numberOfBillsPerYear(Integer year);
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -91,7 +92,7 @@ public class BillController {
 			List<BillDTO> bills=bservice.getBillsByDate(date);
 			if(bills==null)
 			{
-				return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No Bills found");
+				return ResponseEntity.status(HttpStatus.OK).body("No Bills found");
 			}
 			else
 			{
@@ -112,7 +113,7 @@ public class BillController {
 			List<BillDTO> billsbymonth=bservice.getBillsByMonth(month, year);
 			if(billsbymonth==null)
 			{
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No bill record found");
+				return ResponseEntity.status(HttpStatus.OK).body("No bill record found");
 			}
 			
 			return ResponseEntity.ok(billsbymonth);
@@ -132,7 +133,7 @@ public class BillController {
 			
 			if(billsByYear==null)
 			{
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No bill record found");
+				return ResponseEntity.status(HttpStatus.OK).body("No bill record found");
 			}
 			
 			return ResponseEntity.ok(billsByYear);
@@ -160,5 +161,143 @@ public class BillController {
 					+e.getMessage());
 		}
 	}
+	
+	
+	@GetMapping("/getprofitperday/{date}")
+	ResponseEntity<?> getProfitPerDay(@PathVariable String date)
+	{
+		
+		try {
+			
+			double profit=bservice.calculateProfitPerDay(date);
+			
+				
+			
+				return ResponseEntity.status(HttpStatus.OK).body(profit);
+			
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Could Not fetch Profit");
+		}
+	}
+	
+	
+	@GetMapping("/getprofitperMonth/{month}/{year}")
+	ResponseEntity<?> getProfitPerDay(@PathVariable Integer month,@PathVariable Integer year)
+	{
+		
+		try {
+			
+			double profit=bservice.calculateProfitPerMonth(month, year);
+				return ResponseEntity.status(HttpStatus.OK).body(profit);
+			
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Could Not fetch Profit");
+		}
+	}
+	
+	
+	@GetMapping("/getprofitperyear/{year}")
+	ResponseEntity<?> getProfitPerDay(@PathVariable Integer year)
+	{
+		
+		try {
+			
+			double profit=bservice.calculateProfitPerYear(year);
+			
+				return ResponseEntity.status(HttpStatus.OK).body(profit);
+			
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Could Not fetch Profit");
+		}
+	}
+	
+	@GetMapping("/getrevenueperday/{date}")
+	ResponseEntity<?> getrevenueperday(@PathVariable String date)
+	{
+		try {
+			
+			double revenue=bservice.calcualateRevenuePerDay(date);
+			return ResponseEntity.status(HttpStatus.OK).body(revenue);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error calculating Profit"
+					+e.getMessage());
+		}
+	}
+	
+	
+	@GetMapping("/getrevenuepermonth/{month}/{year}")
+	ResponseEntity<?> getrevenuepermonth(@PathVariable Integer month,@PathVariable Integer year)
+	{
+		try {
+			double revenue=bservice.calcualateRevenuePerMonth(month, year);
+			return ResponseEntity.status(HttpStatus.OK).body(revenue);
+			
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error calculating Profit"
+					+e.getMessage());
+		}
+	}
+	
+	@GetMapping("/getrevenueperyear/{year}")
+	ResponseEntity<?> getrevenueperyear(@PathVariable Integer year)
+	{
+		try {
+			
+			double revenue=bservice.calcualateRevenuePerYear(year);
+			return ResponseEntity.status(HttpStatus.OK).body(revenue);
+					
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error calculating Profit"
+					+e.getMessage());
+		}
+		
+	}
+	
+	@GetMapping("/getnumberofbillsperday/{date}")
+	ResponseEntity<?> getnumberofbillsperday(@PathVariable String date)
+	{
+		try {
+			double billsPerDay=bservice.numberOfBillsPerDay(date);
+			if(billsPerDay>0)
+			return ResponseEntity.status(HttpStatus.OK).body(billsPerDay);
+			else
+			return ResponseEntity.status(HttpStatus.OK).body("No Bills Found");
+		} catch (Exception e) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching number"
+				+ "of bills"+e.getMessage());
+		}
+	}
+	
+	@GetMapping("/getnumberofbillspermonth/{month}/{year}")
+	ResponseEntity<?> getnumberofbillspermonth(@PathVariable Integer month,@PathVariable Integer year)
+	{
+		try {
+			double billsPerMonth=bservice.numberOfBillsPerMonth(month, year);
+			if(billsPerMonth>0)
+			return ResponseEntity.status(HttpStatus.OK).body(billsPerMonth);
+			else
+			return ResponseEntity.status(HttpStatus.OK).body("No Bills Found");
+		} catch (Exception e) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching number"
+				+ "of bills"+e.getMessage());
+		}
+	}
+	
+	
+	@GetMapping("/getnumberofbillsperyear/{year}")
+	ResponseEntity<?> getnumberofbillsperday(@PathVariable Integer year)
+	{
+		try {
+			double billsPerYear=bservice.numberOfBillsPerYear(year);
+			if(billsPerYear>0)
+			return ResponseEntity.status(HttpStatus.OK).body(billsPerYear);
+			else
+			return ResponseEntity.status(HttpStatus.OK).body("No Bills Found");
+		} catch (Exception e) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching number"
+				+ "of bills"+e.getMessage());
+		}
+	}
+	
 	
 }

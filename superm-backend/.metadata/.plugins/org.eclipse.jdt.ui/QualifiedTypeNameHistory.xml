@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="org.apache.catalina.mapper.Mapper"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ResponseBody"/>
     <fullyQualifiedTypeName name="java.lang.Exception"/>
     <fullyQualifiedTypeName name="java.lang.String"/>
     <fullyQualifiedTypeName name="com.supermarket.repository.BillRepo"/>
     <fullyQualifiedTypeName name="java.util.stream.Collector"/>
-    <fullyQualifiedTypeName name="com.supermarket.entity.Bill"/>
     <fullyQualifiedTypeName name="com.supermarket.repository.CustomerRepo"/>
     <fullyQualifiedTypeName name="com.supermarket.service.CustomerService"/>
     <fullyQualifiedTypeName name="com.supermarket.service.ProductService"/>
-    <fullyQualifiedTypeName name="com.supermarket.service.BillService"/>
-    <fullyQualifiedTypeName name="java.lang.Integer"/>
     <fullyQualifiedTypeName name="org.springframework.jdbc.core.JdbcTemplate"/>
     <fullyQualifiedTypeName name="com.supermarket.repository.ProductRepo"/>
     <fullyQualifiedTypeName name="com.supermarket.dto.CartDTO"/>
@@ -53,11 +49,15 @@
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonManagedReference"/>
     <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonIgnore"/>
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="com.supermarket.service.BillService"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="com.supermarket.entity.Bill"/>
     <fullyQualifiedTypeName name="java.util.stream.Collectors"/>
+    <fullyQualifiedTypeName name="org.springframework.http.HttpStatusCode"/>
+    <fullyQualifiedTypeName name="com.supermarket.dto.BillDTO"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
     <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
     <fullyQualifiedTypeName name="org.springframework.http.HttpStatus"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
-    <fullyQualifiedTypeName name="java.lang.System"/>
-    <fullyQualifiedTypeName name="com.supermarket.dto.BillDTO"/>
 </qualifiedTypeNameHistroy>

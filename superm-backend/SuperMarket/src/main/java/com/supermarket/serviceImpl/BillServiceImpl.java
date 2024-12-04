@@ -245,23 +245,150 @@ public class BillServiceImpl implements BillService {
 		
 	}
 
+	
+
 	@Override
-	public Long calculateProfitPerBill(Long billId) {
+	public double calculateProfitPerBill(Long billId) {
 		
 		Bill bill=brepo.findByBillId(billId);
-		double profit=0;
-		BillDTO bdto=bill.getProducts().stream().map(p->profit+=(p.getSellingPrice()*p.getSoldStock())
-				-(p.getCostPrice()*p.getSoldStock()).;
-		
-		
-		
-		return null;
+		double totalProfit=bill.getProducts().stream().
+				mapToDouble(product->{
+					double sellingPrice=product.getSellingPrice();
+					double costPrice=product.getCostPrice();
+					double stockSold=product.getSoldStock();
+					return (sellingPrice*stockSold)-(costPrice*stockSold);
+				})
+				.sum();
+		System.out.println(totalProfit);
+		return totalProfit;
 	}
-	
-	
-	
-	
-	
+
+	@Override
+	public double calculateProfitPerDay(String date) {
+		
+		
+		List<BillDTO> billsPerDaydto=getBillsByDate(date);
+		List<Bill> billsPerDay=billsPerDaydto.stream().map(b->modelMapper.map(b, Bill.class))
+				.collect(Collectors.toList());
+		double profitPerDay=billsPerDay.stream().mapToDouble(
+				bill->{
+					return calculateProfitPerBill(bill.getBillId());
+				}						
+				).sum();
+		
+		return profitPerDay;
+	}
+
+	@Override
+	public double calculateProfitPerMonth(Integer month, Integer year) {
+		
+		List<BillDTO> billsPerMonthdto=getBillsByMonth(month, year);
+		List<Bill> billsPerMonth=billsPerMonthdto.stream().map(b->modelMapper.map(b, Bill.class))
+				.collect(Collectors.toList());
+		
+		double profitPerMonth=billsPerMonth.stream().mapToDouble(
+				bill->{
+					
+					return calculateProfitPerBill(bill.getBillId());
+					
+				}
+				).sum();
+		
+		
+		
+		return profitPerMonth;
+	}
+
+	@Override
+	public double calculateProfitPerYear(Integer year) {
+		
+		
+		List<BillDTO> billsPerYearDto=getBillsByYear(year);
+		List<Bill> billsPerYear=billsPerYearDto.stream().map(b->modelMapper.map(b, Bill.class))
+				.collect(Collectors.toList());
+		double profitPerYear=billsPerYear.stream().mapToDouble(
+				bill->{
+					return calculateProfitPerBill(bill.getBillId());
+				}
+				).sum();
+		
+		return profitPerYear;
+	}
+
+	@Override
+	public double calcualateRevenuePerBill(Long billId) {
+		
+		Bill bill=brepo.findByBillId(billId);
+		
+		
+		
+		
+		
+		return bill.getBillAmount();
+	}
+
+	@Override
+	public double calcualateRevenuePerDay(String date) {
+		
+		List<BillDTO> billsPerDay=getBillsByDate(date);
+		double revenue=billsPerDay.stream().mapToDouble(b->
+		{
+			return  b.getBillAmount();
+		}).sum();
+		return revenue;
+	}
+
+	@Override
+	public double calcualateRevenuePerMonth(Integer month, Integer year) {
+		
+		List<BillDTO> billsPerMonth=getBillsByMonth(month, year);
+		double revenue=billsPerMonth.stream().mapToDouble(
+				b->{
+					return b.getBillAmount();
+				}
+				).sum();
+		
+		return revenue;
+	}
+
+	@Override
+	public double calcualateRevenuePerYear(Integer year) {
+		
+		List<BillDTO> billsPerYear=getBillsByYear(year);
+		double revenue=billsPerYear.stream().mapToDouble(b->{
+			return b.getBillAmount();
+		}).sum();
+		
+		
+		return revenue;
+	}
+
+	@Override
+	public double numberOfBillsPerDay(String date) {
+		
+		List<BillDTO> billsPerDay=getBillsByDate(date);
+		return billsPerDay.size();
+		
+		
+	}
+
+	@Override
+	public double numberOfBillsPerMonth(Integer month, Integer year) {
+		
+		List<BillDTO> billsPerMonth=getBillsByMonth(month, year);
+		
+		
+		return billsPerMonth.size();
+	}
+
+	@Override
+	public double numberOfBillsPerYear(Integer year) {
+		
+		List<BillDTO> billsPerYear=getBillsByYear(year);
+		
+		return billsPerYear.size();
+	}
+		
 	
 	
 }
